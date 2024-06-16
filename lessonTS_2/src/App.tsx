@@ -1,12 +1,11 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
+import "bulma";
 import { PostForm } from "./PostForm";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Create a post</h1>
+    <div className="section">
+      <h1 className="title">Create a post</h1>
 
       <PostForm />
     </div>
