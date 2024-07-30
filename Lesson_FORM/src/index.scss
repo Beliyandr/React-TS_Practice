@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  width: 600px;
 }
 
 code {
@@ -16,14 +15,4 @@ code {
 
 iframe {
   display: none;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 15px;
-  max-width: 250px;
-  margin: 0 auto;
-  font-size: 20px;
 }
