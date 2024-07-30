@@ -34,31 +34,23 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
-    setHasUserIdError(true);
+    setHasUserIdError(false);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // if (!title) {
-    //   setHasTitleError(!title);
-    // }
-
-    // if (!userId) {
-    //   setHasUserIdError(true);
-    // }
-
-    // if (!message) {
-    //   setHasMessageError(true);
-    // }
-
     setHasTitleError(!title);
     setHasUserIdError(!userId);
     setHasMessageError(!message);
 
-    if (!title || !userId || !!message) {
+    if (!title || !userId || !message) {
       return;
     }
+
+    console.log(title);
+    console.log(message);
+    console.log(userId);
 
     onSubmit({
       id: 0,

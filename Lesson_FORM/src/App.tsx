@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import "@fortawesome/fontawesome-free/css/all.css";
+import "bulma";
+
 import { Post } from "./types/Post";
 
 import postsFromServer from "./api/posts.json";
@@ -8,9 +11,6 @@ import { getUserById } from "./services/user";
 
 import { PostForm } from "./components/PostForm";
 import { PostList } from "./components/PostList";
-
-import "@fortawesome/fontawesome-free/css/all.css";
-import "bulma";
 
 const initialPosts: Post[] = postsFromServer.map((post) => ({
   ...post,
@@ -21,7 +21,8 @@ export const App: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
   const addPost = (newPost: Post) => {
-    setPosts((currentPosts) => [...currentPosts, newPost]);
+    console.log(newPost);
+    setPosts((currentPosts) => [newPost, ...currentPosts]);
   };
 
   return (
