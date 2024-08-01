@@ -1,9 +1,13 @@
-function App() {
-  return (
-    <div>
-      <h1>Hello React</h1>
-    </div>
-  )
-}
+import { Header } from "./components/Header";
 
-export default App
+export default function App() {
+  return (
+    <>
+      <Header />
+
+      <main>
+        <h1>Hello React</h1>
+      </main>
+    </>
+  );
+}
