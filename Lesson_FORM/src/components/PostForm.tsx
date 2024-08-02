@@ -18,7 +18,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [message, setMessage] = useState("");
-  const [hasMessageError, setHasMessageError] = useState(false);
+  const [hasMessageError, setHasMessageError] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -29,7 +29,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setMessage(event.target.value);
-    setHasMessageError(false);
+    setHasMessageError("");
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,9 +42,14 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
     setHasTitleError(!title);
     setHasUserIdError(!userId);
-    setHasMessageError(!message);
 
-    if (!title || !userId || !message) {
+    if (!message) {
+      setHasMessageError("Please enter some text");
+    } else if (message.length < 5) {
+      setHasMessageError("Message should have at least 5 chars");
+    }
+
+    if (!title || !userId || message.length < 5) {
       return;
     }
 
@@ -59,13 +64,27 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       userId,
       user: getUserById(userId),
     });
+
+    reset();
   };
+
+  const reset = () => {
+    setTitle("");
+    setMessage("");
+    setUserId(0);
+
+    setHasTitleError(false);
+    setHasUserIdError(false);
+    setHasMessageError("");
+  };
+
   return (
     <form
       action="api/posts"
       method="POST"
       className="box"
       onSubmit={handleSubmit}
+      onReset={reset}
     >
       <div className="field">
         <label className="label" htmlFor="post-title">
@@ -83,6 +102,9 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             placeholder="Enter title"
             value={title}
             onChange={handleTitleChange}
+            onBlur={() => {
+              setHasTitleError(!title);
+            }}
           />
           {hasTitleError && (
             <span className="icon is-small is-right">
@@ -90,7 +112,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             </span>
           )}
         </div>
-        {hasTitleError && <p className="help is-danger">Title is requiredd</p>}
+        {hasTitleError && <p className="help is-danger">Title is required</p>}
       </div>
 
       <div className="field">
@@ -106,9 +128,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
               value={userId}
               onChange={handleUserIdChange}
             >
-              <option value="0" disabled>
-                Select a user
-              </option>
+              <option value="0">Select a user</option>
 
               {usersFromServer.map((user) => (
                 <option key={user.id} value={user.id}>
@@ -139,9 +159,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             onChange={handleMessageChange}
           ></textarea>
         </div>
-        {hasMessageError && (
-          <p className="help is-danger">Please enter some message</p>
-        )}
+        {hasMessageError && <p className="help is-danger">{hasMessageError}</p>}
       </div>
 
       <div className="buttons">
