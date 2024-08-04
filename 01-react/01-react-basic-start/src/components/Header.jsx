@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 export const Header = () => {
+  const [date, setDate] = useState(new Date());
+
+  setInterval(() => {
+    setDate(new Date());
+  }, 1000);
+
   return (
     <header>
       <h3>Result </h3>
-      <span>This will the time</span>
+      <span>{date.toLocaleTimeString()}</span>
     </header>
   );
 };
