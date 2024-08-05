@@ -1,50 +1,33 @@
 import { useState } from "react";
 import Button from "./components/Button/Button";
-import { Header } from "./components/Header";
+import { Header } from "./components/Header/Header";
 import WayToTeach from "./components/WayToTeach";
 import { ways, differences } from "./data";
+import { TeachingSection } from "./components/TeachingSection";
+import { DifferencesSection } from "./components/DifferencesSection";
+import { IntroSection } from "./components/introSection";
+import { TabsSection } from "./components/TabsSection";
+import { FeedbackSection } from "./components/FeedbackSection";
 
 export default function App() {
-  const [contentType, setContentType] = useState(null);
-
-  function handleClick(type) {
-    setContentType(type);
-  }
+  const [tab, setTab] = useState("feedback");
 
   return (
     <>
       <Header />
 
       <main>
-        <h1>Hello React</h1>
+        <IntroSection />
+        <TabsSection active={tab} onChange={(current) => setTab(current)} />
 
-        <section>
-          <h3>Наш подход</h3>
+        {tab === "main" && (
+          <>
+            <TeachingSection />
+            <DifferencesSection />
+          </>
+        )}
 
-          <ul>
-            <WayToTeach
-              title={ways[0].title}
-              description={ways[0].description}
-            />
-            <WayToTeach {...ways[1]} />
-            <WayToTeach {...ways[2]} />
-            <WayToTeach {...ways[3]} />
-          </ul>
-        </section>
-
-        <section>
-          <h3>Отличие</h3>
-
-          <Button onClick={() => handleClick("way")}> Подход </Button>
-          <Button onClick={() => handleClick("easy")}> Доступность </Button>
-          <Button onClick={() => handleClick("program")}> Концентрация</Button>
-
-          {contentType ? (
-            <p>{differences[contentType]}</p>
-          ) : (
-            <div>"Нажми на кнопку"</div>
-          )}
-        </section>
+        {tab === "feedback" && <FeedbackSection />}
       </main>
     </>
   );

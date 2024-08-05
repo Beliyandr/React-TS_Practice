@@ -10,15 +10,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-header {
-  height: 50px;
-  display: flex;
-  padding: 0 2rem;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  background: #fafafa;
-}
+
 
 main {
   max-width: 850px;
@@ -45,4 +37,25 @@ section ul li {
 .content,
 p {
   padding: 1rem 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.control {
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  min-width: 100%;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  min-width: 100%;
 }
