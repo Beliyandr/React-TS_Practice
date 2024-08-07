@@ -13,6 +13,10 @@ export const TabsSection = ({ active, onChange }) => {
       >
         Обратная связь
       </Button>
+
+      <Button isActive={active === "effect"} onClick={() => onChange("effect")}>
+        Effect
+      </Button>
     </section>
   );
 };
