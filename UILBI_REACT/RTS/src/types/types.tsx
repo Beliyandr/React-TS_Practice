@@ -1,20 +1,18 @@
 export interface IAddress {
-    street: string;
-    city: string;
-    zipcode: string;
+  street: string;
+  city: string;
+  zipcode: string;
 }
 
 export interface IUser {
-    id: number;
-    name: string;
-    email: string;
-    address: IAddress;
+  id: number;
+  name: string;
+  email: string;
+  address: IAddress;
 }
 
-// export interface ITodo {
-//     id: number;
-//     title: string;
-//     completed: boolean;
-// }
-
-export interface ITodo2 { }
+export interface ITodo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
