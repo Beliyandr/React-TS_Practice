@@ -1,24 +1,38 @@
 // #region imports
-import classNames from 'classnames';
-import React, { useState } from 'react';
-import { Post } from '../types/Post';
-import { getAllUsers, getUserById } from '../services/user';
+import classNames from "classnames";
+import React, { useEffect, useRef, useState } from "react";
+import { Post } from "../types/Post";
+import { getAllUsers, getUserById } from "../services/user";
 
 type Props = {
   onSubmit: (post: Post) => void;
+  onReset?: () => void;
+  post?: Post;
 };
 // #endregion
 
-export const PostForm: React.FC<Props> = ({ onSubmit }) => {
+export const PostForm: React.FC<Props> = ({
+  onSubmit,
+  post,
+  onReset = () => {},
+}) => {
+  const titleField = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (titleField.current && post) {
+      titleField.current.focus();
+    }
+  }, []);
+
   // #region state
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(post?.title || "");
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(post?.userId || 0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  
-  const [body, setBody] = useState('');
-  const [bodyErrorMessage, setBodyErrorMessage] = useState('');
+
+  const [body, setBody] = useState(post?.body || "");
+  const [bodyErrorMessage, setBodyErrorMessage] = useState("");
   // #endregion
   // #region handlers
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +47,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBody(event.target.value);
-    setBodyErrorMessage('');
+    setBodyErrorMessage("");
   };
   // #endregion
   // #region submit
@@ -44,9 +58,9 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     setHasUserIdError(!userId);
 
     if (!body) {
-      setBodyErrorMessage('Please enter some text');
+      setBodyErrorMessage("Please enter some text");
     } else if (body.length < 5) {
-      setBodyErrorMessage('Body should have at least 5 chars');
+      setBodyErrorMessage("Body should have at least 5 chars");
     }
 
     if (!title || !userId || body.length < 5) {
@@ -54,7 +68,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 0,
+      id: post?.id || 0,
       title,
       body,
       userId,
@@ -66,20 +80,22 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   // #endregion
   // #region reset
   const reset = () => {
-    setTitle('');
+    setTitle("");
     setUserId(0);
-    setBody('');
+    setBody("");
 
     setHasTitleError(false);
     setHasUserIdError(false);
-    setBodyErrorMessage('');
+    setBodyErrorMessage("");
+
+    onReset();
   };
   // #endregion
 
   return (
-    <form 
-      action="/api/posts" 
-      method="POST" 
+    <form
+      action="/api/posts"
+      method="POST"
       className="box"
       onSubmit={handleSubmit}
       onReset={reset}
@@ -91,16 +107,19 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
           Title
         </label>
 
-        <div className={classNames('control', {
-          'has-icons-right': hasTitleError,
-        })}>
+        <div
+          className={classNames("control", {
+            "has-icons-right": hasTitleError,
+          })}
+        >
           <input
+            ref={titleField}
             id="post-title"
-            className={classNames('input', {
-              'is-danger': hasTitleError
-            })} 
-            type="text" 
-            placeholder="Email input" 
+            className={classNames("input", {
+              "is-danger": hasTitleError,
+            })}
+            type="text"
+            placeholder="Email input"
             value={title}
             onChange={handleTitleChange}
             onBlur={() => {
@@ -126,9 +145,11 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
         </label>
 
         <div className="control has-icons-left">
-          <div className={classNames('select', {
-            'is-danger': hasUserIdError,
-          })}>
+          <div
+            className={classNames("select", {
+              "is-danger": hasUserIdError,
+            })}
+          >
             <select
               id="post-user-id"
               value={userId}
@@ -136,7 +157,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             >
               <option value="0">Select a user</option>
 
-              {getAllUsers().map(user => (
+              {getAllUsers().map((user) => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
@@ -155,15 +176,13 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       </div>
 
       <div className="field">
-        <label className="label">
-          Message
-        </label>
+        <label className="label">Message</label>
 
         <div className="control">
-          <textarea 
-            className={classNames('textarea', {
-              'is-danger': bodyErrorMessage,
-            })} 
+          <textarea
+            className={classNames("textarea", {
+              "is-danger": bodyErrorMessage,
+            })}
             placeholder="Add some text here"
             value={body}
             onChange={handleBodyChange}
