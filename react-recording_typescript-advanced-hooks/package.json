@@ -43,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.7",
+    "@types/lodash.debounce": "^4.0.9"
   }
 }

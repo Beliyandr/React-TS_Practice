@@ -1,5 +1,6 @@
 // #region imports
 import React, { useCallback, useRef, useState } from "react";
+import debounce from "lodash.debounce";
 
 import { Post } from "./types/Post";
 import { getMaxId, getPreparedPosts } from "./services/posts";
@@ -7,17 +8,17 @@ import { PostForm } from "./components/PostForm";
 import { PostList } from "./components/PostList";
 // #endregion
 
-function debounce(callback: Function, delay: number) {
-  let timerId = 0;
+// function debounce(callback: Function, delay: number) {
+//   let timerId = 0;
 
-  return (...args: any) => {
-    window.clearTimeout(timerId);
+//   return (...args: any) => {
+//     window.clearTimeout(timerId);
 
-    timerId = window.setTimeout(() => {
-      callback(...args);
-    }, delay);
-  };
-}
+//     timerId = window.setTimeout(() => {
+//       callback(...args);
+//     }, delay);
+//   };
+// }
 
 export const App: React.FC = () => {
   // #region query
@@ -27,19 +28,11 @@ export const App: React.FC = () => {
 
   const [appliedQuery, setAppliedQuery] = useState("");
 
-  const applyQuery = debounce(setAppliedQuery, 1000);
-
-  const timerId = useRef(0);
+  const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
     applyQuery(event.target.value);
-
-    // window.clearTimeout(timerId.current);
-
-    // timerId.current = window.setTimeout(() => {
-    //   setAppliedQuery(event.target.value);
-    // }, 1000);
   };
   // #endregion
   // #region posts
