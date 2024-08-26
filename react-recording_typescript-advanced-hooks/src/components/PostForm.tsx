@@ -18,13 +18,11 @@ export const PostForm: React.FC<Props> = ({
 }) => {
   const titleField = useRef<HTMLInputElement>(null);
 
-  console.log(titleField.current);
-
   useEffect(() => {
     if (titleField.current && post) {
       titleField.current.focus();
     }
-  }, []);
+  }, [post?.id]);
 
   // #region state
   const [title, setTitle] = useState(post?.title || "");
