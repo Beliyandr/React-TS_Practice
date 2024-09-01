@@ -1,25 +1,33 @@
-// #region imports 
-import React, { useCallback, useState } from 'react';
-import { Post } from '../types/Post';
-import { PostForm } from './PostForm';
-import { PostList } from './PostList';
+// #region imports
+import React, { useCallback, useEffect, useState } from "react";
+import { Post } from "../types/Post";
+import { PostForm } from "./PostForm";
+import { PostList } from "./PostList";
+import { getUserPosts } from "../services/posts";
+
 // #endregion
 
-import postsFromServer from '../api/posts.json';
+// import postsFromServer from '../api/posts.json';
 
 type Props = {
   userId: number;
 };
 
 export const UserPosts: React.FC<Props> = ({ userId }) => {
-  const [posts, setPosts] = useState<Post[]>(postsFromServer);
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    getUserPosts(userId)
+      .then(setPosts)
+      .finally(() => console.log(posts));
+  }, []);
 
   // #region add, delete, update
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const addPost = useCallback((post: Post) => {
-    setPosts(currentPosts => {
-      const maxId = Math.max(...currentPosts.map(post => post.id));
+    setPosts((currentPosts) => {
+      const maxId = Math.max(...currentPosts.map((post) => post.id));
       const id = maxId + 1;
 
       return [...currentPosts, { ...post, id }];
@@ -27,13 +35,15 @@ export const UserPosts: React.FC<Props> = ({ userId }) => {
   }, []);
 
   const deletePost = useCallback((postId: number) => {
-    setPosts(currentPosts => currentPosts.filter(post => post.id !== postId));
+    setPosts((currentPosts) =>
+      currentPosts.filter((post) => post.id !== postId)
+    );
   }, []);
 
   const updatePost = useCallback((updatedPost: Post) => {
-    setPosts(currentPosts => {
+    setPosts((currentPosts) => {
       const newPosts = [...currentPosts];
-      const index = newPosts.findIndex(post => post.id === updatedPost.id);
+      const index = newPosts.findIndex((post) => post.id === updatedPost.id);
 
       newPosts.splice(index, 1, updatedPost);
 
