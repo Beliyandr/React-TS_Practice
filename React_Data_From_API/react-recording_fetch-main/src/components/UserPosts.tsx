@@ -16,11 +16,14 @@ type Props = {
 export const UserPosts: React.FC<Props> = ({ userId }) => {
   const [posts, setPosts] = useState<Post[]>([]);
 
+console.log(posts)
+
   useEffect(() => {
     getUserPosts(userId)
       .then(setPosts)
+      .catch((error)=>{console.log(error)})
       .finally(() => console.log(posts));
-  }, []);
+  }, [userId]);
 
   // #region add, delete, update
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);

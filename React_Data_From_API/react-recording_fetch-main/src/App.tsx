@@ -6,6 +6,7 @@ import { UsersList } from "./components/UserList";
 import { User } from "./types";
 import { getUsers } from "./services/user";
 import { Loader } from "./components/Loader";
+import { UserPosts } from "./components/UserPosts";
 
 export const App: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -13,12 +14,18 @@ export const App: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [updateAt, setUpdateAt] = useState(new Date());
 
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+console.log(selectedUser)
+
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       getUsers()
         .then(setUsers)
-        .catch((e) => {
+        .catch((error) => {
+          console.log(error);
           setErrorMessage("Try again later");
         })
         .finally(() => {
@@ -39,7 +46,13 @@ export const App: React.FC = () => {
 
         {loading && <Loader />}
 
-        {!loading && users.length > 0 && <UsersList users={users} />}
+        {!loading && users.length > 0 && (
+          <UsersList
+            users={users}
+            onSelect={setSelectedUser}
+            selectedUserId={selectedUser?.id}
+          />
+        )}
         {!loading && !errorMessage && users.length === 0 && (
           <p className="title is-5">There are no users</p>
         )}
@@ -50,6 +63,8 @@ export const App: React.FC = () => {
             <button onClick={reload}>reload</button>
           </p>
         )}
+
+        {selectedUser && <UserPosts userId={selectedUser.id} />}
       </div>
     </div>
   );
