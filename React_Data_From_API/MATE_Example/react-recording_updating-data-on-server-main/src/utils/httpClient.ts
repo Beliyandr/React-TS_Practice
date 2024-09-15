@@ -10,3 +10,4 @@ export function getData<T>(url: string): Promise<T> {
       return response.json();
     });
 }
+
