@@ -20,7 +20,18 @@ console.log(initialPosts);
 export const App: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
-  const addPost = (newPost: Post) => {
+  function getNewPostId(posts: Post[]) {
+    const maxId = Math.max(...posts.map((post) => post.id));
+
+    return maxId + 1;
+    // return +Math.random().toFixed(12).slice(2);
+  }
+
+  const addPost = (post: Post) => {
+    const newPost = {
+      ...post,
+      id: getNewPostId(posts),
+    };
     setPosts((currentPosts) => [newPost, ...currentPosts]);
   };
 

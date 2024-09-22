@@ -13,7 +13,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   const [hasTitleError, setHasTitleError] = useState(false);
 
   const [body, setBody] = useState("");
-  const [hasBodyError, setHasBodyError] = useState(false);
+  const [hasBodyError, setHasBodyError] = useState("");
 
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
@@ -25,7 +25,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
   const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBody(event.target.value);
-    setHasBodyError(false);
+    setHasBodyError("");
   };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,9 +38,13 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
 
     setHasTitleError(!title);
     setHasUserIdError(!userId);
-    setHasBodyError(!body);
+    if (!body) {
+      setHasBodyError("Please enter some message");
+    } else if (body.length < 5) {
+      setHasBodyError("Please your text 5 liters");
+    }
 
-    if (!title || !userId || !body) {
+    if (!title || !userId || body.length < 5) {
       return;
     }
 
@@ -49,8 +53,20 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       title,
       body,
       userId,
-      user:getUserById(userId)
+      user: getUserById(userId),
     });
+
+    reset();
+  };
+
+  const reset = () => {
+    setTitle("");
+    setBody("");
+    setUserId(0);
+
+    setHasBodyError("");
+    setHasTitleError(false);
+    setHasUserIdError(false);
   };
 
   return (
@@ -59,6 +75,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
       method="POST"
       className="box"
       onSubmit={handleSubmit}
+      onReset={reset}
     >
       <div className="field">
         <label className="label" htmlFor="post-title">
@@ -104,9 +121,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
               value={userId}
               onChange={handleUserIdChange}
             >
-              <option value="0" disabled>
-                Select a user
-              </option>
+              <option value="0">Select a user</option>
               {usersFromServer.map((user) => {
                 return (
                   <option key={user.id} value={user.id}>
@@ -142,9 +157,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
             placeholder="Textarea"
           ></textarea>
         </div>
-        {hasBodyError && (
-          <p className="help is-danger">Please enter some message</p>
-        )}
+        {hasBodyError && <p className="help is-danger">{hasBodyError}</p>}
       </div>
 
       <div className="buttons">
