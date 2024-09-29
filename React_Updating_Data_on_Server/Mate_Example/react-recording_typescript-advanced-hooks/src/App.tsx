@@ -7,6 +7,17 @@ import { PostForm } from "./components/PostForm";
 import { PostList } from "./components/PostList";
 // #endregion
 
+function debounce(callback: Function, delay: number) {
+  let timerId = 0;
+
+  return (...args: any) => {
+    window.clearTimeout(timerId);
+    timerId = window.setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+}
+
 export const App: React.FC = () => {
   // #region query
   const [query, setQuery] = useState("");
@@ -15,17 +26,13 @@ export const App: React.FC = () => {
 
   const [appliedQuery, setAppliedQuery] = useState("");
 
+  const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
+
   const timerId = useRef(0);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-
-    // window.clearTimeout();
-
-    timerId.current = window.setTimeout(() => {
-      console.log("filterring by", event.target.value);
-      setAppliedQuery(event.target.value);
-    }, 1000);
+    applyQuery(event.target.value);
   };
   // #endregion
   // #region posts
