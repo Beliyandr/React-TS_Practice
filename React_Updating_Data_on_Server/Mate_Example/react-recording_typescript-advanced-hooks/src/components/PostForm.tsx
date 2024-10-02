@@ -13,10 +13,10 @@ type Props = {
 
 export const PostForm: React.FC<Props> = React.memo(
   ({ onSubmit, post, onReset = () => {} }) => {
-    console.log("render PostForm");
+    // console.log("render PostForm");
 
     const titleField = useRef<HTMLInputElement | null>(null);
-    console.log(titleField.current);
+    // console.log(titleField.current);
 
     useEffect(() => {
       if (titleField.current && post) {
