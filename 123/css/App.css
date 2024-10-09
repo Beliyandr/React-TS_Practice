@@ -1,0 +1,8 @@
+iframe {
+  display: none;
+}
+
+.dropdown-item:hover {
+  background-color: rgb(178, 190, 178);
+  cursor: pointer;
+}/*# sourceMappingURL=App.css.map */
