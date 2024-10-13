@@ -5,6 +5,11 @@
     padding-top: 30px;
   }
 
+  @include mobile {
+    padding-top: 15px;
+  }
+
+
   &__inner {
     display: flex;
     justify-content: space-between;
