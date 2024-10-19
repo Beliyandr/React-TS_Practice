@@ -16,6 +16,12 @@
     row-gap: 27px;
   }
 
+  @include mobile-s {
+    column-gap: 25px;
+    min-height: 300px;
+    padding: 25px;
+  }
+
   &--accent-bg {
     background-color: var(--color-accent);
   }
