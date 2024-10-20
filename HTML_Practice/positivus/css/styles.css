@@ -3,8 +3,8 @@
   Нормализация блочной модели
  */
 *,
-::before,
-::after {
+*::before,
+*::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -61,10 +61,6 @@ dl):where([class]) {
   list-style: none;
 }
 
-:where(address[class]) {
-  font-style: normal;
-}
-
 /**
   Обнуляем вертикальные внешние отступы параграфа,
   объявляем локальную переменную для внешнего отступа вниз,
@@ -107,13 +103,9 @@ html {
     (когда, например, нужно будет "прижать" футер к низу сайта)
    */
   height: 100%;
-}
-
-/**
-  Плавный скролл
- */
-html,
-:has(:target) {
+  /**
+    Плавный скролл
+   */
   scroll-behavior: smooth;
 }
 
@@ -153,9 +145,7 @@ svg * {
   которые предпочитают их не использовать
  */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
+  * {
     -webkit-animation-duration: 0.01ms !important;
             animation-duration: 0.01ms !important;
     -webkit-animation-iteration-count: 1 !important;
