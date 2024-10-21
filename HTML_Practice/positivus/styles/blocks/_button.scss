@@ -9,6 +9,7 @@
   border: var(--border);
   border-radius: var(--border-radius);
   cursor: pointer;
+  transition-duration: var(--transition-duration);
 
   @include hover {
     color: var(--color-dark);
@@ -18,5 +19,15 @@
   &--transparent {
     color: var(--color-dark);
     background-color: transparent;
+  }
+
+  &--accent {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+
+    @include hover {
+      background-color: var(--color-dark);
+      color: var(--color-accent);
+    }
   }
 }
