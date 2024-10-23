@@ -238,10 +238,28 @@ p:not([class]):not(:last-child) {
 
 .input {
   width: 100%;
-  height: var(--header-height);
+  height: var(--input-height);
   padding-inline: 25px;
-
+  color: var(--color-light);
+  background-color: transparent;
+  border: 1px solid var(--color-light-gray);
+  border-radius: var(--border-radius);
 }
+
+.input::placeholder {
+  color: var(--color-light-gray);
+}
+
+.input:hover {
+  border-color: var(--color-light);
+}
+
+.input:focus {
+  color: var(--color-dark);
+  background-color: var(--color-light-gray);
+  outline: none;
+}
+
 
 .button:hover {
   background-color: var(--color-light-gray);
@@ -457,6 +475,7 @@ p:not([class]):not(:last-child) {
   padding-right: 80px;
   background-color: transparent;
   border: var(--border);
+  color: var(--color-light);
   position: relative;
 }
 
@@ -576,7 +595,12 @@ p:not([class]):not(:last-child) {
 
 }
 
-.join-us__video {}
+.join-us__video {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+
+}
 
 .join-us__play-button {
   position: absolute;
@@ -653,6 +677,10 @@ p:not([class]):not(:last-child) {
   row-gap: 7px;
 }
 
+.join-us__form-header:not(:last-child) {
+  margin-bottom: 52px;
+}
+
 .join-us__form-title {}
 
 
@@ -661,18 +689,21 @@ p:not([class]):not(:last-child) {
   line-height: 1.65;
   text-transform: uppercase;
   color: var(--color-light);
+  text-align: center;
 }
 
-.join-us__form-subtitle:not(:last-child) {
-  margin-bottom: 52px;
 
+.join-us__form-body {
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
 }
-
-.join-us__form-body {}
 
 .visually-hidden {}
 
-.join-us__form-input {}
+.join-us__form-input {
+  max-width: 400px;
+}
 
 
 .join-us__form-button {}
@@ -732,6 +763,15 @@ p:not([class]):not(:last-child) {
   .motivation__card {
     padding-block: 50px;
   }
+
+  .join-us__body {
+    padding-bottom: 150px;
+  }
+
+  .join-us__title:not(:last-child) {
+    margin-bottom: 80px;
+  }
+
 }
 
 
@@ -811,4 +851,30 @@ p:not([class]):not(:last-child) {
   .training-types__image {
     max-width: 120px;
   }
+
+  .join-us__play-button {
+
+    width: 120px;
+    font-size: 12px;
+  }
+
+  .join-us__title:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  .join-us__form-subtitle {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .join-us__body {
+    padding-bottom: 40px;
+  }
+
+  .join-us__form-body {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+  }
+
 }
