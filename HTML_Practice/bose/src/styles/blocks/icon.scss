@@ -1,0 +1,30 @@
+.icon {
+  /* background-image: ; */
+  display: block;
+  width: 24px;
+  height: 24px;
+  /* aspect-ratio: 1; */
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media (min-width:576px) {
+    height: 32px;
+    width: 32px;
+  }
+
+  &--phone {
+    background-image: url(../icons/phone.png);
+
+  }
+
+  &--menu {
+    background-image: url(../icons/burger.png);
+
+
+  }
+
+  &--close {
+    background-image: url(../icons/close-icon.svg);
+  }
+
+}
