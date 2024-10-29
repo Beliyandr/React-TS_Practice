@@ -1,0 +1,19 @@
+.nav {
+
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+    line-height: 22px;
+    font-size: 22px;
+    letter-spacing: 2px;
+
+  }
+
+}

@@ -1,13 +1,13 @@
 .icon {
-  /* background-image: ; */
+
   display: block;
   width: 24px;
   height: 24px;
-  /* aspect-ratio: 1; */
+
   background-repeat: no-repeat;
   background-size: cover;
 
-  @media (min-width:576px) {
+  @include onTablet {
     height: 32px;
     width: 32px;
   }

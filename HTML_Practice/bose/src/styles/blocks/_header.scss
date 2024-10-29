@@ -1,16 +1,21 @@
 .header {
 
-  background-image: url(../images/header-bg-mobile.png);
   height: 100vh;
+  background-color: #e5e5e5;
+  background-image: url(../images/header-bg-mobile.png);
   background-size: cover;
   background-position: center;
+
+
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   &__bottom {
-    padding: 0 20px 40px;
+    padding-bottom: 40px;
+
+    @include contentPaddingInline;
   }
 
 
