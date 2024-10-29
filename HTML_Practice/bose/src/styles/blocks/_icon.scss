@@ -6,6 +6,9 @@
 
   background-repeat: no-repeat;
   background-size: cover;
+  // transition: transform 0.3s;
+
+  @include hover(transform, scale(1.2));
 
   @include onTablet {
     height: 32px;

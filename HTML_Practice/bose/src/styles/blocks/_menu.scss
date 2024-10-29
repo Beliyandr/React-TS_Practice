@@ -11,6 +11,10 @@
 
   &__top {
     margin-bottom: 32px;
+
+    @include onTablet {
+      margin-bottom: 0;
+    }
   }
 
 
@@ -31,7 +35,7 @@
     color: inherit;
     text-transform: uppercase;
     padding-bottom: 7px;
-    border-bottom: 1px solid #292929;
+    border-bottom: 1px solid $main-text-color;
   }
 
 }

@@ -1,11 +1,10 @@
-
 * {
   box-sizing: border-box;
 }
 
 html {
   font-family: 'Inter', sans-serif;
-  color: #292929;
+  color: $main-text-color;
   font-size: 16px;
   line-height: 1.4;
   scroll-behavior: smooth;
