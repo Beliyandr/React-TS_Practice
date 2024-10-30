@@ -1,12 +1,15 @@
 .main {
-  display: grid;
-  padding-block: 96px;
-  gap: 96px;
+  background-color: #ffffff;
 
-  @include contentPaddingInline;
+  &__content {
 
-  @include onTablet {
-    padding-block: 120px;
-    gap: 120px;
+    display: grid;
+    padding-block: 96px;
+    gap: 96px;
+
+    @include onTablet {
+      padding-block: 120px;
+      gap: 120px;
+    }
   }
 }
