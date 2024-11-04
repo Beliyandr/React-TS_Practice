@@ -21,18 +21,33 @@
   }
 
   &__link {
+    position: relative;
+
 
     &--wide {
 
-      @include onTablet {}
+      @include onTablet {
+        grid-column: span 4;
+      }
 
-      @include onDesktop {}
+      @include onDesktop {
+
+        grid-column: span 8;
+      }
     }
 
     &--square {
-      @include onTablet {}
+      padding-bottom: 100%;
+      height: 0;
 
-      @include onDesktop {}
+      @include onTablet {
+        grid-column: span 2;
+      }
+
+      @include onDesktop {
+        grid-column: span 4;
+
+      }
     }
 
   }
@@ -41,6 +56,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
   }
 
 
