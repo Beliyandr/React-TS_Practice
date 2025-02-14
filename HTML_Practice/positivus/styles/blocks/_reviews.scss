@@ -28,8 +28,7 @@
       display: flex;
       column-gap: 50px;
 
-      scroll-snap-type: x mandatory;
-      overflow-x: scroll;
+      grid-auto-flow: column;
 
       @include tablet-above {
         margin-left: calc(var(--reviewsSliderSlideWidth) /2 * -1);
