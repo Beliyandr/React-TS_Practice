@@ -1,63 +1,94 @@
-import { useState } from 'react';
-import cn from 'classnames';
+import { useState } from "react";
 
-import goodsFromServer from './goods.json';
-import { GoodList } from './components/GoodList/GoodList';
+import goodsFromServer from "./goods.json";
+import { GoodList } from "./components/GoodList/GoodList";
+import { Header } from "./components/Header/Header";
 
-const SORT_FIELD_ID = 'id';
-const SORT_FIELD_NAME = 'id';
-const SORT_FIELD_COLOR = 'id';
+import { SORT_FIELD } from "./constants";
 
 function getPreparedGoods(goods, { sortfield, query }) {
-  let preparedGood = [...goods]
+  let preparedGood = [...goods];
   if (query) {
-    preparedGood = preparedGood.filter(good => good.name.includes(query))
+    preparedGood = preparedGood.filter((good) => good.name.includes(query));
   }
 
   if (sortfield) {
     preparedGood.sort((good1, good2) => {
       switch (sortfield) {
-        case SORT_FIELD_ID:
+        case SORT_FIELD.ID:
+          return good1[sortfield] - good2[sortfield];
 
-
+        case SORT_FIELD.COLOR:
+        case SORT_FIELD.NAME:
+          return good1[sortfield].localeCompare(good2[sortfield]);
 
         default:
           return 0;
       }
-    })
+    });
   }
 
   return preparedGood;
 }
 
-
 export const App = () => {
-  const [sortfield, setSortfield] = useState('');
-  const visibleGoods = getPreparedGoods(goodsFromServer, { sortfield, query: 'e' })
+  const [goods, setGoods] = useState(goodsFromServer);
+  const [sortfield, setSortfield] = useState("");
+  const [query, setQuery] = useState("");
 
-  console.log(visibleGoods);
+  const visibleGoods = getPreparedGoods(goodsFromServer, {
+    sortfield,
+    query,
+  });
 
+  const moveUp = (good) => {
+    const index = goods.indexOf(good);
+
+    if (index < 1) {
+      return;
+    }
+
+    setGoods([
+      ...goods.slice(0, index - 1),
+      goods[index],
+      goods[index - 1],
+      ...goods.slice(index + 1),
+    ]);
+  };
+
+  const moveDown = (good) => {
+    setGoods((currentGoods) => {
+      const index = currentGoods.indexOf(good);
+
+      console.log(currentGoods);
+
+      if (index === currentGoods.length - 1) {
+        return;
+      }
+
+      return [
+        ...currentGoods.slice(0, index),
+        currentGoods[index + 1],
+        currentGoods[index],
+        ...currentGoods.slice(index + 2),
+      ];
+    });
+  };
 
   return (
     <div className="App">
-      <header>
-        <button onClick={() => setSortfield('')}>Reset</button>
-        <button>Reverse</button>
+      {false && (
+        <Header
+          sortfield={sortfield}
+          sortBy={setSortfield}
+          filterBy={(newQuery) => {
+            setQuery(newQuery);
+          }}
+          query={query}
+        />
+      )}
 
-        <div>
-          Sort by:
-          <button
-            onClick={() => setSortfield(SORT_FIELD_ID)}
-            className={cn({ active: sortfield === SORT_FIELD_ID })}
-          >
-            id
-          </button>
-          <button>name</button>
-          <button>color</button>
-        </div>
-      </header>
-
-      <GoodList goods={visibleGoods} />
+      <GoodList goods={goods} moveUp={moveUp} moveDown={moveDown} />
     </div>
   );
 };
