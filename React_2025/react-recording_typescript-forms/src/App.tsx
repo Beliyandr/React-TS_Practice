@@ -1,32 +1,44 @@
 // #region initialPosts
-import React from "react";
+import React, { useState } from "react";
 // import { Form } from "./Form";
-import { PostForm } from "./PostForm";
-import { PostList } from "./PostList";
+import { PostForm } from "./components/PostForm";
+import { PostList } from "./components/PostList";
 import { Post } from "./types/Post";
 
 import postsFromServer from "./api/posts.json";
-import usersFromServer from "./api/users.json";
-import { User } from "./types/User";
-
-function getUserById(userId: number): User | null {
-  return usersFromServer.find((user) => user.id === userId) || null;
-}
+import getUserById from "./services/user";
 
 const initialPosts: Post[] = postsFromServer.map((post) => ({
   ...post,
   user: getUserById(post.userId),
 }));
 
+const onSubmit = (post: Post) => {};
 //#endregion
 
+function getNewPostId(posts: Post[]) {
+  // return +Math.random().toFixed(12).slice(2);
+  const maxId = Math.max(...posts.map((post) => post.id));
+  return maxId + 1;
+}
+
 export const App: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+
+  const addPost = (post: Post) => {
+    const newPost = {
+      ...post,
+      id: getNewPostId(posts),
+    };
+    setPosts((currentPosts) => [newPost, ...currentPosts]);
+  };
+
   return (
     <div className="section">
       <h1 className="title">Create a post</h1>
 
-      <PostForm />
-      <PostList posts={initialPosts} />
+      <PostForm onSubmit={addPost} />
+      <PostList posts={posts} />
     </div>
   );
 };
