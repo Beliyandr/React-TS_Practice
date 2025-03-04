@@ -1,16 +1,16 @@
 import React from "react";
 import { Post } from "../types/Post";
-import classNames from "classnames";
+import cn from "classnames";
 
 type Props = {
   posts: Post[];
-  selectedPostId?: number;
-  onDelete?: (id: number) => void;
+  onDelete?: (postId: number) => void;
   onSelect?: (post: Post) => void;
+  selectedPostId?: number;
 };
 
 export const PostList: React.FC<Props> = React.memo(
-  ({ posts, selectedPostId, onDelete = () => {}, onSelect = () => {} }) => {
+  ({ posts, onDelete = () => {}, onSelect = () => {} }, selectedPostId) => {
     return (
       <table className="table is-striped is-narrow box">
         <thead>
@@ -27,7 +27,7 @@ export const PostList: React.FC<Props> = React.memo(
           {posts.map((post) => (
             <tr
               key={post.id}
-              className={classNames({
+              className={cn({
                 "has-background-info": selectedPostId === post.id,
               })}
             >
@@ -37,7 +37,9 @@ export const PostList: React.FC<Props> = React.memo(
               <td>
                 <button
                   className="icon button is-inverted is-info"
-                  onClick={() => onSelect(post)}
+                  onClick={() => {
+                    onSelect(post);
+                  }}
                 >
                   <i className="fas fa-pen"></i>
                 </button>

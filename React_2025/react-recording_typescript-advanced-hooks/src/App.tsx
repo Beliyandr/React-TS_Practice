@@ -1,5 +1,5 @@
 // #region imports
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import { Post } from "./types/Post";
 import { getMaxId, getPreparedPosts } from "./services/posts";
@@ -7,83 +7,55 @@ import { PostForm } from "./components/PostForm";
 import { PostList } from "./components/PostList";
 // #endregion
 
-function debounce(callback: Function, delay: number) {
-  debugger
-  let timerId = 0;
-  console.log(timerId);
-  return (...args: any) => {
-    window.clearTimeout(timerId);
-    timerId = window.setTimeout(() => {
-      callback(...args);
-    }, delay);
-    console.log(timerId);
-  };
-}
-
 export const App: React.FC = () => {
   // #region query
   const [query, setQuery] = useState("");
 
-  const [count, setCount] = useState(0);
-
-  const [appliedQuery, setAppliedQuery] = useState("");
-
-  const applyQuery = useCallback(debounce(setAppliedQuery, 1000), []);
-
-  const timerId = useRef(0);
-
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-    applyQuery(event.target.value);
   };
   // #endregion
   // #region posts
   const [posts, setPosts] = useState<Post[]>(getPreparedPosts());
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const addPost = useCallback((post: Post) => {
     setPosts((currentPosts) => {
       const newPost = {
         ...post,
-        id: getMaxId(posts) + 1,
+        id: getMaxId(currentPosts) + 1,
       };
-      return [newPost, ...currentPosts];
+      return [...currentPosts, newPost];
     });
   }, []);
 
   const deletePost = useCallback((postId: number) => {
-    setPosts((currentPosts) =>
-      currentPosts.filter((post) => post.id !== postId)
-    );
-  }, []);
-
-  const updatePost = useCallback((updatedPost: Post) => {
-    setPosts((currentPosts) => {
-      const newPosts = [...currentPosts];
-      const index = newPosts.findIndex((post) => post.id === updatedPost.id);
-
-      newPosts.splice(index, 1, updatedPost);
-
-      return newPosts;
-    });
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
   }, []);
 
   // #endregion
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => post.title.includes(query));
-  }, [posts, appliedQuery]);
+  }, [query, posts]);
 
-  // console.log(selectedPost);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
+  const updatePost = useCallback((updatedPost: Post) => {
+    setPosts((currentPosts) => {
+      const newPosts = [...currentPosts];
+      const index = newPosts.findIndex((post) => post.id === updatedPost.id);
+      newPosts.splice(index, 1, updatedPost);
+
+      return newPosts;
+    });
+  }, []);
 
   return (
     <div className="section py-5">
-      <button className="button" onClick={() => setCount((count) => count + 1)}>
-        {count}
-      </button>
       <div className="columns is-mobile">
         <div className="column">
           <h1 className="title">Posts</h1>
+          <button onClick={() => {}}>{selectedPost?.id}</button>
         </div>
 
         <div className="column">
