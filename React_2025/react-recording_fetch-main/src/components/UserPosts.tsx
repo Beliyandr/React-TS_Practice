@@ -1,18 +1,23 @@
 // #region imports
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Post } from "../types/Post";
 import { PostForm } from "./PostForm";
 import { PostList } from "./PostList";
 // #endregion
 
 import postsFromServer from "../api/posts.json";
+import { getUserPosts } from "../services/posts";
 
 type Props = {
   userId: number;
 };
 
 export const UserPosts: React.FC<Props> = ({ userId }) => {
-  const [posts, setPosts] = useState<Post[]>(postsFromServer);
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    getUserPosts(userId).then(setPosts);
+  }, [userId]);
 
   // #region add, delete, update
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);

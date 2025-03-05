@@ -7,12 +7,27 @@ import { PostForm } from "./components/PostForm";
 import { PostList } from "./components/PostList";
 // #endregion
 
+function debonce(callback: Function, delay: number) {
+  let timerId = 0;
+  return (...args: any) => {
+    window.clearTimeout(timerId);
+
+    timerId = window.setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+}
+
 export const App: React.FC = () => {
   // #region query
   const [query, setQuery] = useState("");
+  const [apliedQuery, setApliedQuery] = useState("");
+
+  const applyQuery = useCallback(debonce(setApliedQuery, 1000), []);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
+    applyQuery(event.target.value);
   };
   // #endregion
   // #region posts
@@ -35,8 +50,8 @@ export const App: React.FC = () => {
   // #endregion
 
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => post.title.includes(query));
-  }, [query, posts]);
+    return posts.filter((post) => post.title.includes(apliedQuery));
+  }, [apliedQuery, posts]);
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 

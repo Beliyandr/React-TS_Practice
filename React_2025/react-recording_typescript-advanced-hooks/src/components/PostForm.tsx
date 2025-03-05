@@ -16,8 +16,6 @@ export const PostForm: React.FC<Props> = ({
   post,
   onReset = () => {},
 }) => {
-  console.log("render PostForm");
-
   const titleField = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {

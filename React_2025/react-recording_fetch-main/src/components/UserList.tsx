@@ -1,5 +1,5 @@
-import React from 'react';
-import { User } from '../types/User';
+import React from "react";
+import { User } from "../types/User";
 
 type Props = {
   users: User[];
@@ -10,7 +10,7 @@ type Props = {
 export const UsersList: React.FC<Props> = ({
   users,
   selectedUserId,
-  onSelect = () => { },
+  onSelect = () => {},
 }) => (
   <table className="table is-narrow">
     <thead>
@@ -23,7 +23,7 @@ export const UsersList: React.FC<Props> = ({
     </thead>
 
     <tbody>
-      {users.map(user => (
+      {users.map((user) => (
         <tr key={user.id}>
           <td>{user.id}</td>
           <td>{user.name}</td>
