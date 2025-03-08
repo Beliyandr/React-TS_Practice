@@ -40,12 +40,13 @@ export class Cell {
     const max = Math.max(this.y, target.y);
 
     for (let y = min + 1; y < max; y++) {
-      if (this.board.getCell(this.x, y).isEmpty()) {
+      if (!this.board.getCell(this.x, y).isEmpty()) {
         return false;
       }
     }
     return true;
   }
+
   isEmptyHorizontal(target: Cell): boolean {
     return true;
   }
