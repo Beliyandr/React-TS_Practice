@@ -1,4 +1,4 @@
-// #region imports 
+// #region imports
 import React from 'react';
 
 import { Post } from './types/Post';
@@ -25,8 +25,15 @@ export const App: React.FC = () => {
     <div className="section">
       <h1 className="title">Create a post</h1>
 
-      <PostForm />
-      <PostList posts={initialPosts} />
+
+
+{false && (
+  <>
+  <PostForm />
+  <PostList posts={initialPosts} />
+  </>
+)
+}
     </div>
   );
 };
