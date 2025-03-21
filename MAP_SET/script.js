@@ -28,6 +28,3 @@ fetch('https://jsonplaceholder.typicode.com/todos').then((res) => {
 }).then((data) => {
   console.log(data);
 })
-
-
-// напиши приклад MAP колекції
