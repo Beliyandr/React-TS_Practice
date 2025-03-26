@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { Footer } from "./components/Footer";
 import { Lang } from "./types/Lang";
 import { LangSelector } from "./components/LangSelector";
 import { HomePage } from "./components/HomePage";
+import { LangProvider } from "./utils/LangContext";
+import { Header } from "./components/Header";
+import { Main } from "./components/Main";
 
 export const App = () => {
-  const [lang, setLang] = useState(Lang.EN);
-
   return (
     <div className="App">
-      <header className="header">
-        Mate academy
-        <LangSelector lang={lang} onChange={setLang} />
-      </header>
+      <Header />
+      <Main />
+      <Footer />
 
-      <main>
-        <HomePage lang={lang} />
-      </main>
+      {false && (
+        <LangProvider>
+          <main>
+            <HomePage />
+          </main>
 
-      <Footer lang={lang} />
+          <Footer />
+        </LangProvider>
+      )}
     </div>
   );
 };
