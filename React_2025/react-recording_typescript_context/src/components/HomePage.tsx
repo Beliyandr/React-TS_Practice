@@ -1,7 +1,7 @@
 import { translate } from "../utils/translate";
-import { Lang } from "../types/Lang";
 import { useContext } from "react";
 import { LangContext } from "../utils/LangContext";
+import { StateContext } from "./Store";
 
 type Props = {};
 
@@ -13,7 +13,7 @@ export const HomePage: React.FC = () => (
 );
 
 const HomePageTitle: React.FC = () => {
-  const { lang } = useContext(LangContext);
+  const { lang } = useContext(StateContext);
 
   return <h1>{translate("homePage.title", lang)}</h1>;
 };
