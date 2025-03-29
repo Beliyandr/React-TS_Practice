@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 
-import { PostList } from '../components/PostList';
-import { Loader } from '../components/Loader';
-import { PostsContext } from '../store/PostsContext';
+import { PostList } from "../components/PostList";
+import { Loader } from "../components/Loader";
+import { PostsContext } from "../store/PostsContext";
+import { Outlet } from "react-router-dom";
 
 export const PostsPage: React.FC = () => {
   const { posts, loading, errorMessage, loadPosts } = useContext(PostsContext);
@@ -14,7 +15,7 @@ export const PostsPage: React.FC = () => {
   }, [userId]);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -27,11 +28,11 @@ export const PostsPage: React.FC = () => {
         <p>There are no posts yet</p>
       )}
 
-      <a href="#/posts/new" className="button is-info">Create a post</a>
+      <a href="#/posts/new" className="button is-info">
+        Create a post
+      </a>
 
-      {errorMessage && (
-        <p className="notification is-danger">{errorMessage}</p>
-      )}
+      {errorMessage && <p className="notification is-danger">{errorMessage}</p>}
     </div>
   );
 };

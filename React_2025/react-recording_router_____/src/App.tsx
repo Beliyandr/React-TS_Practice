@@ -1,47 +1,42 @@
-import { Routes, Route, Link } from 'react-router-dom'
-import React, { useState } from 'react';
-import { NewPostPage } from './pages/NewPostPage';
-import { PostDetailsPage } from './pages/PostDetailsPage';
-import { PostsPage } from './pages/PostsPage';
-import { UsersPage } from './pages/UsersPage';
-import { HomePage } from './pages/HomePage';
+import { Link, Outlet, NavLink } from "react-router-dom";
+import React from "react";
+import classNames from "classnames";
 
+type Page = "home" | "users" | "posts" | "postDetails" | "newPost";
 
-type Page = 'home' | 'users' | 'posts' | 'postDetails' | 'newPost';
+const getLinkClass = ({ isActive }: { isActive: boolean }) =>
+  classNames("navbar-item", { "is-active": isActive });
+
+const getLinkStyle = ({ isActive }: { isActive: boolean }) => ({
+  color: isActive ? "red" : "",
+});
 
 export const App: React.FC = () => {
+  return (
+    <>
+      <nav className="navbar is-light px-3">
+        <div className="navbar-brand">
+          <Link to="/" className="navbar-item">
+            <img src="/logo.svg" alt="MA" className="logo" />
+          </Link>
 
-  return <>
-    <nav className="navbar is-light px-3">
-      <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          <img src="/logo.svg" alt="MA" className="logo" />
-        </Link>
+          <NavLink to="/" className={getLinkClass} style={getLinkStyle}>
+            Home
+          </NavLink>
 
-        <Link to="/" className="navbar-item is-active" >
-          Home
-        </Link>
+          <NavLink to="/users" className={getLinkClass} style={getLinkStyle}>
+            Users
+          </NavLink>
 
-        <Link to="/users" className="navbar-item" >
-          Users
-        </Link>
+          <NavLink to="/posts" className={getLinkClass} style={getLinkStyle}>
+            Posts
+          </NavLink>
+        </div>
+      </nav>
 
-        <Link to="/posts" className="navbar-item" >
-          Posts
-        </Link>
+      <div className="section">
+        <Outlet />
       </div>
-    </nav>
-
-    <div className="section">
-
-      <Routes >
-        <Route path='/' element={<HomePage />} />
-        <Route path='/users' element={<UsersPage />} />
-        <Route path='/posts' element={<PostsPage />} />
-        <Route path='/posts/620' element={<PostDetailsPage />} />
-        <Route path='/posts/new' element={<NewPostPage />} />
-      </Routes>
-
-    </div>
-  </>;
-}
+    </>
+  );
+};
