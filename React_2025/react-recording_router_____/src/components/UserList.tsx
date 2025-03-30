@@ -1,15 +1,13 @@
-import React from 'react';
-import { User } from '../types/User';
-import { Link, useParams } from 'react-router-dom';
+import React from "react";
+import { User } from "../types/User";
+import { Link, useParams } from "react-router-dom";
 
 type Props = {
   users: User[];
 };
 
-export const UsersList: React.FC<Props> = ({
-  users,
-}) => {
-  const { userId } = useParams()
+export const UsersList: React.FC<Props> = ({ users }) => {
+  const { userId } = useParams();
   const selectedUserId = userId ? +userId : 0;
 
   return (
@@ -24,20 +22,19 @@ export const UsersList: React.FC<Props> = ({
       </thead>
 
       <tbody>
-        {users.map(user => (
+        {users.map((user) => (
           <tr key={user.id}>
             <td>{user.id}</td>
             <td>{user.name}</td>
             <td>{user.email}</td>
             <td>
               {user.id === selectedUserId ? (
-                <Link to='..'
-                  className="icon button is-success"
-                >
+                <Link to=".." className="icon button is-success">
                   <i className="far fa-eye-slash" />
                 </Link>
               ) : (
-                <Link to={`../${user.id}`}
+                <Link
+                  to={`${user.id}/posts`}
                   className="icon button is-success is-inverted"
                 >
                   <i className="far fa-eye" />
@@ -48,5 +45,5 @@ export const UsersList: React.FC<Props> = ({
         ))}
       </tbody>
     </table>
-  )
-}
+  );
+};
