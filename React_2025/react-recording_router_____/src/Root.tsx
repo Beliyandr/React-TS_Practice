@@ -7,6 +7,8 @@ import { PostsPage } from "./pages/PostsPage";
 import { UsersPage } from "./pages/UsersPage";
 import { HomePage } from "./pages/HomePage";
 import { App } from "./App";
+import { LoginPage } from "./pages/LoginPage";
+import { RequireAuth } from "./pages/RequireAuth";
 
 export const Root = () => (
   <Router>
@@ -15,8 +17,9 @@ export const Root = () => (
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<HomePage />} />
+            <Route path='login' element={<LoginPage />} />
 
-            <Route path="users">
+            <Route path="users" element={<RequireAuth />}>
               <Route index element={<UsersPage />} />
 
               <Route path=":userId?/posts">

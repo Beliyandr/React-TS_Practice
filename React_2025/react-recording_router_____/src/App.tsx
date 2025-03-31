@@ -1,4 +1,4 @@
-import { Link, Outlet, NavLink } from "react-router-dom";
+import { Link, Outlet, NavLink, useParams } from "react-router-dom";
 import React from "react";
 import classNames from "classnames";
 
@@ -12,6 +12,9 @@ const getLinkStyle = ({ isActive }: { isActive: boolean }) => ({
 });
 
 export const App: React.FC = () => {
+
+  const { userId } = useParams()
+
   return (
     <>
       <nav className="navbar is-light px-3">
@@ -24,13 +27,17 @@ export const App: React.FC = () => {
             Home
           </NavLink>
 
-          <NavLink to="/users" className={getLinkClass} style={getLinkStyle}>
+          <NavLink to="/users" end className={getLinkClass} style={getLinkStyle}>
             Users
           </NavLink>
 
           <NavLink to="/posts" className={getLinkClass} style={getLinkStyle}>
             Posts
           </NavLink>
+
+          {userId && <NavLink to={`/users/${userId}/posts`} className={getLinkClass} style={getLinkStyle}>
+            User {userId} Posts
+          </NavLink>}
         </div>
       </nav>
 
