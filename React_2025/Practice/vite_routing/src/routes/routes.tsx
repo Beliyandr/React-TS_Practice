@@ -11,7 +11,7 @@ import { NoMatchPage } from "../pages/NoMatchPage";
 export const Approutes = () => {
   const navigationRoutes = [
     { path: "/", element: <MainPage /> },
-    { path: "/my-profile", element: <MyProfile /> },
+    { path: "/my-profile/:userId", element: <MyProfile /> },
     { path: "/orders", element: <Orders /> },
     { path: "/delivery", element: <Delivery /> },
     { path: "/settings", element: <Settings /> },

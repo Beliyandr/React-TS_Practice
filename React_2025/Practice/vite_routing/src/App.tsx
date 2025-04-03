@@ -9,7 +9,7 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, MenuProps, Space, theme } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Approutes } from "./routes/routes";
 
 const { Header, Sider, Content } = Layout;
@@ -19,6 +19,8 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const location = useLocation();
 
   const navigate = useNavigate();
 
@@ -44,6 +46,20 @@ const App: React.FC = () => {
     },
   ];
 
+  const getSelectedKey = () => {
+    switch (location.pathname) {
+      case "/":
+        return ["1"];
+      case "/orders":
+        return ["2"];
+      case "/delivery":
+        return ["3"];
+      default:
+        // return ["1"];
+        return [];
+    }
+  };
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -52,6 +68,7 @@ const App: React.FC = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
+          selectedKeys={getSelectedKey()}
           items={[
             {
               key: "1",
@@ -64,7 +81,7 @@ const App: React.FC = () => {
             {
               key: "2",
               icon: <VideoCameraOutlined />,
-              label: <Link to="/orders">Заказы</Link>,
+              label: <Link to="/orders?sort=desc">Заказы</Link>,
             },
             {
               key: "3",

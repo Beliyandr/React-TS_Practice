@@ -1,6 +1,13 @@
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Delivery = () => {
-  return <Typography.Title level={4}>Доставка</Typography.Title>;
+  const navigate = useNavigate();
+  return (
+    <>
+      <Typography.Title level={4}>Доставка</Typography.Title>
+      <Button onClick={() => navigate(-1)}>Назад</Button>
+    </>
+  );
 };
