@@ -7,6 +7,7 @@ import { Orders } from "../pages/Orders";
 import { Settings } from "../pages/Settings";
 import { Login } from "../pages/Login";
 import { NoMatchPage } from "../pages/NoMatchPage";
+import { PrivateRoute } from "./private.route";
 
 export const Approutes = () => {
   const navigationRoutes = [
@@ -14,7 +15,14 @@ export const Approutes = () => {
     { path: "/my-profile/:userId", element: <MyProfile /> },
     { path: "/orders", element: <Orders /> },
     { path: "/delivery", element: <Delivery /> },
-    { path: "/settings", element: <Settings /> },
+    {
+      path: "/settings",
+      element: (
+        <PrivateRoute>
+          <Settings />
+        </PrivateRoute>
+      ),
+    },
     { path: "/login", element: <Login /> },
     { path: "*", element: <NoMatchPage /> },
   ];
