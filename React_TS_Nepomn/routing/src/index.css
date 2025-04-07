@@ -35,6 +35,28 @@ header>a:hover {
 h1 {
   text-align: center;
   margin-top: 0;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+button {
+  background-color: grey;
+  color: White;
+  padding: 10px 20px;
+  border: 4px dotted rgb(18, 18, 92);
+  transition: all 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+  box-shadow: 2px 2px 2px rgb(240, 35, 48)
+}
+
+input {
+  border: 1px solid grey;
+  border-right: none;
+  padding: 10px;
+  margin-left: 10px;
 }
 
 .container {

@@ -11,8 +11,6 @@ type Props = {
 export const CustomLink: React.FC<Props> = ({ children, to, ...props }) => {
   const match = useMatch(to);
 
-  console.log({ match });
-
   return (
     <Link
       to={to}
