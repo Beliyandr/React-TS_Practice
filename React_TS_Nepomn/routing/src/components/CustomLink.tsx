@@ -9,7 +9,12 @@ type Props = {
 };
 
 export const CustomLink: React.FC<Props> = ({ children, to, ...props }) => {
-  const match = useMatch(to);
+  const match = useMatch({
+    path: to,
+    end: to.length === 1,
+  });
+
+  console.log(to.length);
 
   return (
     <Link
