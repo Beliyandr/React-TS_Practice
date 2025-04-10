@@ -7,7 +7,7 @@ export const PostFilter = () => {
   const [query, setQuery] = useState('');
   const [userId, setUserId] = useState(0);
   const [letters, setLetters] = useState<string[]>([]);
-  
+
   function handlePageChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserId(+event.target.value);
   }
