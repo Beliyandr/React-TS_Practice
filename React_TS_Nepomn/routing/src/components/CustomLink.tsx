@@ -14,8 +14,6 @@ export const CustomLink: React.FC<Props> = ({ children, to, ...props }) => {
     end: to.length === 1,
   });
 
-  console.log(to.length);
-
   return (
     <Link
       to={to}
