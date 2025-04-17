@@ -1,17 +1,10 @@
-import { createRoot } from 'react-dom/client';
-import '@fortawesome/fontawesome-free/css/all.css';
-import 'bulma';
-import './index.scss';
-import { App } from './App';
-import { PostsProvider } from './store/PostsContext';
-import { UsersProvider } from './store/UsersContext';
+import { createRoot } from "react-dom/client";
 
-const container = document.getElementById('root') as HTMLElement;
+import "@fortawesome/fontawesome-free/css/all.css";
+import "bulma";
+import "./index.scss";
+import { Root } from "./Root";
 
-createRoot(container).render(
-  <UsersProvider>
-    <PostsProvider>
-      <App />
-    </PostsProvider>
-  </UsersProvider>
-);
+const container = document.getElementById("root") as HTMLElement;
+
+createRoot(container).render(<Root />);
