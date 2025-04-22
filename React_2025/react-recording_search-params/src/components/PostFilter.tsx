@@ -1,12 +1,18 @@
-import classNames from 'classnames';
-import React, { useState } from 'react';
-import { useUsers } from '../store/UsersContext';
+import { useSearchParams } from "react-router-dom";
+
+import classNames from "classnames";
+import React, { useState } from "react";
+import { useUsers } from "../store/UsersContext";
 
 export const PostFilter = () => {
   const users = useUsers();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [userId, setUserId] = useState(0);
   const [letters, setLetters] = useState<string[]>([]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  console.log(searchParams);
 
   function handlePageChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setUserId(+event.target.value);
@@ -17,9 +23,10 @@ export const PostFilter = () => {
   }
 
   function toggleLetter(ch: string) {
-    setLetters(currentLetters => currentLetters.includes(ch)
-      ? currentLetters.filter(letter => letter !== ch)
-      : [...currentLetters, ch]
+    setLetters((currentLetters) =>
+      currentLetters.includes(ch)
+        ? currentLetters.filter((letter) => letter !== ch)
+        : [...currentLetters, ch]
     );
   }
 
@@ -34,7 +41,7 @@ export const PostFilter = () => {
           <select value={userId} onChange={handlePageChange}>
             <option value="0">All users</option>
 
-            {users.map(user => (
+            {users.map((user) => (
               <option value={user.id} key={user.id}>
                 {user.name}
               </option>
@@ -52,12 +59,12 @@ export const PostFilter = () => {
       </div>
 
       <div className="buttons">
-        {'aeoui'.split('').map(letter => (
+        {"aeoui".split("").map((letter) => (
           <button
             key={letter}
             onClick={() => toggleLetter(letter)}
-            className={classNames('button', {
-              'is-info': letters.includes(letter),
+            className={classNames("button", {
+              "is-info": letters.includes(letter),
             })}
           >
             {letter}
@@ -73,5 +80,5 @@ export const PostFilter = () => {
         </button>
       </div>
     </div>
-  )
+  );
 };

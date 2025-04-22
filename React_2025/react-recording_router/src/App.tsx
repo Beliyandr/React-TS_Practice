@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 
 const getLinkClass = ({ isActive }: { isActive: boolean }) =>
   classNames("navbar-item", { "is-active": isActive });
@@ -9,6 +9,8 @@ const getLinkStyle = ({ isActive }: { isActive: boolean }) => ({
 });
 
 export const App = () => {
+  const { userId } = useParams();
+
   return (
     <>
       <nav className="navbar is-light px-3">
@@ -21,13 +23,28 @@ export const App = () => {
             Home
           </NavLink>
 
-          <NavLink to="/users" className={getLinkClass} style={getLinkStyle}>
+          <NavLink
+            to="/users"
+            end
+            className={getLinkClass}
+            style={getLinkStyle}
+          >
             Users
           </NavLink>
 
           <NavLink to="/posts" className={getLinkClass} style={getLinkStyle}>
             Posts
           </NavLink>
+
+          {userId && (
+            <NavLink
+              to={`/users/${userId}/posts`}
+              className={getLinkClass}
+              style={getLinkStyle}
+            >
+              User {userId} Posts
+            </NavLink>
+          )}
         </div>
       </nav>
 

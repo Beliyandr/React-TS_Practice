@@ -33,6 +33,8 @@ export const PostDetailsPage = () => {
     navigate({ pathname: "..", search: state?.search });
   }
 
+  console.log(state);
+
   useEffect(() => {
     setErrorMessage("");
     setLoading(true);

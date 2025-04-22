@@ -17,29 +17,32 @@ export const PostFilter = () => {
   const letters = searchParams.getAll("letters") || [];
   // const [letters, setLetters] = useState<string[]>([]);
 
-  function handlePageChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const params = new URLSearchParams(searchParams);
-    params.set("userId", event.target.value);
+  function setSearcgWith(params: any) {
+    const newParams = new URLSearchParams(searchParams);
+    // ???
     setSearchParams(params);
+  }
+
+  function handlePageChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSearcgWith({ userId: event.target.value });
   }
 
   function handleQueryChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const params = new URLSearchParams(searchParams);
-    params.set("query", event.target.value);
-    setSearchParams(params);
+    setSearcgWith({ query: event.target.value });
   }
 
   function toggleLetter(ch: string) {
-    const params = new URLSearchParams(searchParams);
     const newLetter = letters.includes(ch)
       ? letters.filter((letter) => letter !== ch)
       : [...letters, ch];
 
-    params.delete("letters");
+    setSearcgWith({ letters: newLetter });
 
-    newLetter.forEach((letter) => params.append("letters", letter));
+    // params.delete("letters");
 
-    setSearchParams(params);
+    // newLetter.forEach((letter) => params.append("letters", letter));
+
+    // setSearchParams(params);
 
     // setLetters((currentLetters) =>
     //   currentLetters.includes(ch)
@@ -49,9 +52,7 @@ export const PostFilter = () => {
   }
 
   function clearLetters() {
-    const params = new URLSearchParams(searchParams);
-    params.delete("letters");
-    setSearchParams(params);
+    setSearcgWith({ letters: null });
   }
 
   return (

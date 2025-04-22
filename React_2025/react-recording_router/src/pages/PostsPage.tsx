@@ -22,7 +22,13 @@ export const PostsPage: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="title">User {selectUserId} Posts</h1>
+      {selectUserId !== 0 && (
+        <Link to=".." className="icon button is-success">
+          Back
+        </Link>
+      )}
+
+      <h1 className="title">Posts</h1>
 
       {posts.length > 0 ? (
         <PostList posts={posts} />
