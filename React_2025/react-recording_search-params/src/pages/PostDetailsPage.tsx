@@ -1,12 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { Post } from '../types';
-import { getPost } from '../services/post';
-import { Loader } from '../components/Loader';
-import { PostForm } from '../components/PostForm';
-import { PostsContext } from '../store/PostsContext';
-import { useUsers } from '../store/UsersContext';
+import {
+  useParams,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Post } from "../types";
+import { getPost } from "../services/post";
+import { Loader } from "../components/Loader";
+import { PostForm } from "../components/PostForm";
+import { PostsContext } from "../store/PostsContext";
+import { useUsers } from "../store/UsersContext";
 
 export const PostDetailsPage = () => {
   // #region posts
@@ -15,19 +20,21 @@ export const PostDetailsPage = () => {
 
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   // #endregion
 
   const { postId } = useParams();
   const normalizedPostId = postId ? +postId : 0;
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   function goBack() {
-    navigate('..')
+    // navigate({ pathname: "..", search });
+    navigate({ pathname: "..", search: state?.search });
   }
 
   useEffect(() => {
-    setErrorMessage('');
+    setErrorMessage("");
     setLoading(true);
 
     getPost(normalizedPostId)
@@ -43,23 +50,23 @@ export const PostDetailsPage = () => {
     return <Navigate to=".." />;
   }
 
-  return <>
-    <h1 className="title">Edit post {normalizedPostId}</h1>
+  return (
+    <>
+      <h1 className="title">Edit post {normalizedPostId}</h1>
 
-    {loading && <Loader />}
+      {loading && <Loader />}
 
-    {errorMessage && (
-      <p className="notification is-danger">{errorMessage}</p>
-    )}
+      {errorMessage && <p className="notification is-danger">{errorMessage}</p>}
 
-    {!loading && !errorMessage && post && (
-      <PostForm
-        users={users}
-        fixedUserId={11}
-        post={post}
-        onReset={goBack}
-        onSubmit={postData => updatePost(postData).then(goBack)}
-      />
-    )}
-  </>;
+      {!loading && !errorMessage && post && (
+        <PostForm
+          users={users}
+          fixedUserId={11}
+          post={post}
+          onReset={goBack}
+          onSubmit={(postData) => updatePost(postData).then(goBack)}
+        />
+      )}
+    </>
+  );
 };
