@@ -51,7 +51,7 @@ export const PostFilter = () => {
   }
   function toggleLetter(ch: string) {
     const newLetters = letters.includes(ch)
-      ? letters.filter((letter) => letter !== ch)
+      ? letters.filter((letter: any) => letter !== ch)
       : [...letters, ch];
     setSearchWith({ letters: newLetters });
   }
