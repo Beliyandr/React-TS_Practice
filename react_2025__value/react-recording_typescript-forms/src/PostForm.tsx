@@ -1,7 +1,15 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-export const PostForm: React.FC = () => {
+import { Post } from "./types/Post";
+import usersFromServer from "./api/users.json";
+import { getUserById } from "./services/user";
+
+type Props = {
+  onSubmit: (post: Post) => void;
+};
+
+export const PostForm: React.FC<Props> = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -9,7 +17,7 @@ export const PostForm: React.FC = () => {
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
   const [body, setBody] = useState("");
-  const [hasBodyError, setHasBodyError] = useState(false);
+  const [bodyErrorMassage, setBodyErrorMassage] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -18,7 +26,7 @@ export const PostForm: React.FC = () => {
 
   const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBody(event.target.value);
-    setHasBodyError(false);
+    setBodyErrorMassage("");
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,27 +34,41 @@ export const PostForm: React.FC = () => {
     setHasUserIdError(false);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!title) {
-      setHasTitleError(true);
-    }
-    if (!body) {
-      setHasBodyError(true);
-    }
-    if (!userId) {
-      setHasUserIdError(true);
-    }
-  };
-
-  const handleReset = () => {
+  const reset = () => {
     setTitle("");
     setUserId(0);
     setBody("");
+
     setHasTitleError(false);
+    setBodyErrorMassage("");
     setHasUserIdError(false);
-    setHasBodyError(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setHasTitleError(!title);
+    setHasUserIdError(!userId);
+
+    if (!body) {
+      setBodyErrorMassage("Please enter some message");
+    } else if (body.length < 5) {
+      setBodyErrorMassage("Message must be at least 5 characters long");
+    }
+
+    if (!title || body.length < 5 || !userId) {
+      return;
+    }
+
+    onSubmit({
+      id: 0,
+      title,
+      body,
+      userId,
+      user: getUserById(userId),
+    });
+
+    reset();
   };
 
   return (
@@ -55,7 +77,7 @@ export const PostForm: React.FC = () => {
       method="POST"
       className="box"
       onSubmit={handleSubmit}
-      onReset={handleReset}
+      onReset={reset}
     >
       <div className="field">
         <label className="label" htmlFor="post-title">
@@ -76,6 +98,9 @@ export const PostForm: React.FC = () => {
             placeholder="Email input"
             value={title}
             onChange={handleTitleChange}
+            onBlur={() => {
+              setHasTitleError(!title);
+            }}
           />
 
           {hasTitleError && (
@@ -103,13 +128,12 @@ export const PostForm: React.FC = () => {
               value={userId}
               id="post-user-id"
             >
-              <option value="0" disabled>
-                Select a user
-              </option>
-              <option value="Elena">Elena</option>
-              <option value="Andrew">Andrew</option>
-              <option value="Mikola">Mikola</option>
-              <option value="Georg">Georg</option>
+              <option value="0">Select a user</option>
+              {usersFromServer.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
             </select>
           </div>
           <span className="icon is-small is-left">
@@ -123,15 +147,15 @@ export const PostForm: React.FC = () => {
         <div className="control">
           <textarea
             className={classNames("textarea", {
-              "is-danger": hasBodyError,
+              "is-danger": bodyErrorMassage,
             })}
             placeholder="Textarea"
             value={body}
             onChange={handleBodyChange}
           ></textarea>
         </div>
-        {hasBodyError && (
-          <p className="help is-danger">Please enter some message</p>
+        {bodyErrorMassage && (
+          <p className="help is-danger">{bodyErrorMassage}</p>
         )}
       </div>
 
