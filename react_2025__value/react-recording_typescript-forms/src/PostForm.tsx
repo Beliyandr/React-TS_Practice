@@ -7,16 +7,17 @@ import { getUserById } from "./services/user";
 
 type Props = {
   onSubmit: (post: Post) => void;
+  post?: Post;
 };
 
-export const PostForm: React.FC<Props> = ({ onSubmit }) => {
-  const [title, setTitle] = useState("");
+export const PostForm: React.FC<Props> = ({ onSubmit, post }) => {
+  const [title, setTitle] = useState(post?.title || "");
   const [hasTitleError, setHasTitleError] = useState(false);
 
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(post?.userId || 0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-  const [body, setBody] = useState("");
+  const [body, setBody] = useState(post?.body || "");
   const [bodyErrorMassage, setBodyErrorMassage] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +62,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit }) => {
     }
 
     onSubmit({
-      id: 0,
+      id: post?.id || 0,
       title,
       body,
       userId,
