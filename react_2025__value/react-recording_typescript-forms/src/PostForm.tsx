@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Post } from "./types/Post";
 import usersFromServer from "./api/users.json";
@@ -7,10 +7,25 @@ import { getUserById } from "./services/user";
 
 type Props = {
   onSubmit: (post: Post) => void;
+  onReset?: () => void;
   post?: Post;
 };
 
-export const PostForm: React.FC<Props> = ({ onSubmit, post }) => {
+export const PostForm: React.FC<Props> = ({
+  onSubmit,
+  post,
+  onReset = () => {},
+}) => {
+  const titleField = useRef<HTMLInputElement>(null);
+
+  // console.log(titleField.current);
+
+  useEffect(() => {
+    if (titleField.current && post) {
+      titleField.current.focus();
+    }
+  }, [post?.id]);
+
   const [title, setTitle] = useState(post?.title || "");
   const [hasTitleError, setHasTitleError] = useState(false);
 
@@ -43,6 +58,8 @@ export const PostForm: React.FC<Props> = ({ onSubmit, post }) => {
     setHasTitleError(false);
     setBodyErrorMassage("");
     setHasUserIdError(false);
+
+    onReset();
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -92,6 +109,7 @@ export const PostForm: React.FC<Props> = ({ onSubmit, post }) => {
         >
           <input
             id="post-title"
+            ref={titleField}
             className={classNames("input", {
               "is-danger": hasTitleError,
             })}

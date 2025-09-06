@@ -1,14 +1,16 @@
 import { memo } from "react";
 import { Post } from "./types/Post";
+import classNames from "classnames";
 
 type Props = {
   posts: Post[];
+  selectedPostId?: number;
   onDelete?: (postId: number) => void;
   onSelect?: (post: Post) => void;
 };
 
 export const PostList: React.FC<Props> = memo(
-  ({ posts, onDelete = () => {}, onSelect = () => {} }) => {
+  ({ posts, selectedPostId, onDelete = () => {}, onSelect = () => {} }) => {
     console.log("rendering PostList");
 
     return (
@@ -23,7 +25,12 @@ export const PostList: React.FC<Props> = memo(
 
         <tbody>
           {posts.map((post) => (
-            <tr key={post.id}>
+            <tr
+              key={post.id}
+              className={classNames({
+                "has-background-info": selectedPostId === post.id,
+              })}
+            >
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.user?.email}</td>
