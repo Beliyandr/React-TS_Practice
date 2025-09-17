@@ -38,31 +38,53 @@ export const UserPosts: React.FC<Props> = ({ userId }) => {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   function addPost({ title, body, userId }: Post) {
-    postService.createPost({ title, body, userId }).then((newPost) => {
-      setPosts((currentPosts) => {
-        return [...currentPosts, newPost];
+    setErrorMessage("");
+
+    return postService
+      .createPost({ title, body, userId })
+      .then((newPost) => {
+        setPosts((currentPosts) => {
+          return [...currentPosts, newPost];
+        });
+      })
+      .catch((error) => {
+        setErrorMessage("Can't create a post");
+        throw error;
       });
-    });
   }
 
   function deletePost(postId: number) {
-    postService.deletePost(postId);
     setPosts((currentPosts) =>
       currentPosts.filter((post) => post.id !== postId)
     );
+    return postService.deletePost(postId).catch((error) => {
+      setPosts(posts);
+      setErrorMessage("Can't delete a post");
+      throw error;
+    });
   }
 
   function updatePost(updatedPost: Post) {
-    postService.updatePost(updatedPost).then((post) => {
-      setPosts((currentPosts) => {
-        const newPosts = [...currentPosts];
-        const index = newPosts.findIndex((post) => post.id === updatedPost.id);
+    setErrorMessage("");
 
-        newPosts.splice(index, 1, post);
+    return postService
+      .updatePost(updatedPost)
+      .then((post) => {
+        setPosts((currentPosts) => {
+          const newPosts = [...currentPosts];
+          const index = newPosts.findIndex(
+            (post) => post.id === updatedPost.id
+          );
 
-        return newPosts;
+          newPosts.splice(index, 1, post);
+
+          return newPosts;
+        });
+      })
+      .catch((error) => {
+        setErrorMessage("Can't update a post");
+        throw error;
       });
-    });
   }
   // #endregion
 
