@@ -19,24 +19,23 @@ export function reducer(goods = [], action) {
 }
 
 export const actions = {
-  add: (payload) => {
+  add: (payload) => (
     {
-      type: TYPE_ADD;
-      payload;
+      type: TYPE_ADD,
+      payload,
     }
-  },
+  ),
 
-  take: (payload) => {
+  take: (payload) => (
     {
-      type: TYPE_TAKE;
-      payload;
+      type: TYPE_TAKE,
+      payload
     }
-  },
+  ),
 
-  clear: () => {
+  clear: () => (
     {
-      type: TYPE_CLEAR;
-      payload;
+      type: TYPE_CLEAR,
     }
-  },
+  ),
 };
