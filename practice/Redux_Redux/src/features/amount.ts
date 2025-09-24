@@ -1,49 +1,14 @@
-type AddAction = {
-  type: "amount/ADD";
-  payload: number;
-};
-type TakeAction = {
-  type: "amount/TAKE";
-  payload: number;
-};
-type ClearAction = { type: "amount/CLEAR" };
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Action = AddAction | TakeAction | ClearAction;
-
-const add = (value: number): AddAction => ({
-  type: "amount/ADD",
-  payload: value,
+const amountSlice = createSlice({
+  name: "amount",
+  initialState: 0,
+  reducers: {
+    add: (value, action: PayloadAction<number>) => value + action.payload,
+    take: (value, action: PayloadAction<number>) => value - action.payload,
+    clear: () => 0,
+  },
 });
 
-const take = (value: number): TakeAction => ({
-  type: "amount/TAKE",
-  payload: value,
-});
-
-const clear = (): ClearAction => ({ type: "amount/CLEAR" });
-
-const amountReducer = (amount = 0, action: Action) => {
-  switch (action.type) {
-    case "amount/ADD":
-      return amount + action.payload;
-
-    case "amount/TAKE": {
-      if (action.payload > amount) {
-        return amount;
-      }
-      return amount - action.payload;
-    }
-
-    case "amount/CLEAR":
-      return 0;
-
-    default:
-      return amount;
-  }
-
-  return amount;
-};
-
-export const actions = { add, take, clear };
-
-export default amountReducer;
+export const { actions } = amountSlice;
+export default amountSlice.reducer;
