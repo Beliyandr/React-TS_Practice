@@ -4,16 +4,42 @@ const MOVE_UP = "position/MOVE_UP";
 const MOVE_DOWN = "position/MOVE_DOWN";
 
 type MoveLeftAction = { type: "position/MOVE_LEFT" };
-type MoveRiGHTAction = { type: "position/MOVE_RIGHT" };
+type MoveRightAction = { type: "position/MOVE_RIGHT" };
 type MoveUpAction = { type: "position/MOVE_UP" };
 type MoveDownAction = { type: "position/MOVE_DOWN" };
 
-type Action = MoveLeftAction | MoveRiGHTAction | MoveUpAction | MoveDownAction;
+type Action = MoveLeftAction | MoveRightAction | MoveUpAction | MoveDownAction;
 
-const startPosition = { x: 0, y: 0 };
+const moveLeft = (): MoveLeftAction => ({ type: "position/MOVE_LEFT" });
+const moveRight = (): MoveRightAction => ({ type: "position/MOVE_RIGHT" });
+const moveUp = (): MoveUpAction => ({ type: "position/MOVE_UP" });
+const moveDown = (): MoveDownAction => ({ type: "position/MOVE_DOWN" });
 
-const positionReducer = (position = startPosition, action: Action) => {
-  return position;
+type Position = {
+  x: number;
+  y: number;
+};
+
+const startPosition: Position = { x: 0, y: 0 };
+
+const positionReducer = (
+  position: Position = startPosition,
+  action: Action
+): Position => {
+  switch (action.type) {
+    case "position/MOVE_LEFT":
+      return { ...position, x: position.x - 1 };
+    case "position/MOVE_RIGHT":
+      return { ...position, x: position.x + 1 };
+    case "position/MOVE_UP":
+      return { ...position, y: position.y - 1 };
+    case "position/MOVE_DOWN":
+      return { ...position, y: position.y + 1 };
+
+    default:
+      return position;
+  }
 };
 
 export default positionReducer;
+export const actions = { moveLeft, moveRight, moveUp, moveDown };
