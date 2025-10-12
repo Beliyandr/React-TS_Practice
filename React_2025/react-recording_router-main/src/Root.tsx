@@ -17,10 +17,18 @@ export const Root = () => (
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<HomePage />} />
-            <Route path="users" element={<UsersPage />} />
+            <Route path="users">
+              <Route index element={<UsersPage />} />
+
+              <Route path=":userId?/posts">
+                <Route index element={<PostsPage />} />
+                <Route path=":postId" element={<PostDetailsPage />} />
+                <Route path="new" element={<NewPostPage />} />
+              </Route>
+            </Route>
             <Route path="posts">
               <Route index element={<PostsPage />} />
-              <Route path="620" element={<PostDetailsPage />} />
+              <Route path=":postId" element={<PostDetailsPage />} />
               <Route path="new" element={<NewPostPage />} />
             </Route>
             <Route path="*" element={<p>Not Found</p>} />

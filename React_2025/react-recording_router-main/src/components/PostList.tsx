@@ -1,0 +1,57 @@
+import React from "react";
+import { Post } from "../types/Post";
+import classNames from "classnames";
+import { Link } from "react-router";
+
+type Props = {
+  posts: Post[];
+  selectedPostId?: number;
+  onDelete?: (id: number) => void;
+  onSelect?: (post: Post) => void;
+};
+
+export const PostList: React.FC<Props> = React.memo(
+  ({ posts, selectedPostId, onDelete = () => {}, onSelect = () => {} }) => {
+    return (
+      <table className="table is-striped is-narrow">
+        <thead>
+          <tr className="has-background-link-light">
+            <th>#</th>
+            <th>Title</th>
+            <th>Body</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {posts.map((post) => (
+            <tr
+              key={post.id}
+              className={classNames({
+                "has-background-info": selectedPostId === post.id,
+              })}
+            >
+              <td>{post.id}</td>
+              <td>{post.title}</td>
+              <td>{post.body}</td>
+              <td>
+                <Link
+                  to={`${post.id}`}
+                  className="icon button is-inverted is-info"
+                >
+                  <i className="fas fa-pen"></i>
+                </Link>
+              </td>
+              <td>
+                <Link to="" className="icon button is-inverted is-danger">
+                  <i className="fas fa-xmark"></i>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+);
